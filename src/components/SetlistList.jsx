@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import Spinner from 'react-bootstrap/Spinner'
 import Table from 'react-bootstrap/Table'
 import Button from 'react-bootstrap/Button'
+import MoreLink from './buttons/MoreLink'
 
 import {
   fetchSetlistsByCity,
@@ -68,7 +69,9 @@ class SetlistList extends React.Component {
             {setlist.venue.city.country.name}
           </td>
 
-          <td className="d-flex wrap-btns">Add/Remove More</td>
+          <td className="d-flex wrap-btns">
+            Add/Remove <MoreLink setlist={setlist} />
+          </td>
         </tr>
       )
     })
@@ -116,7 +119,9 @@ class SetlistList extends React.Component {
 }
 
 SetlistList.defaultProps = {
-  setlists: [] || {}
+  setlists: [] || {},
+  loadingMore: false,
+  hasMore: true
 }
 
 SetlistList.propTypes = {
@@ -124,13 +129,12 @@ SetlistList.propTypes = {
     PropTypes.objectOf(PropTypes.any),
     PropTypes.array
   ]),
-
   isLoadingSetlist: PropTypes.bool.isRequired,
-  loadingMore: PropTypes.bool.isRequired,
+  loadingMore: PropTypes.bool,
   location: PropTypes.shape({
     pathname: PropTypes.string.isRequired
   }).isRequired,
-  hasMore: PropTypes.bool.isRequired,
+  hasMore: PropTypes.bool,
   currPage: PropTypes.number.isRequired,
   fetchSetlistsConnect: PropTypes.func.isRequired,
   fetchSetlistsByCityConnect: PropTypes.func.isRequired,
