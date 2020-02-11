@@ -3,10 +3,14 @@ import { firebaseReducer } from 'react-redux-firebase'
 import { firestoreReducer } from 'redux-firestore'
 import setlistsReducer from './setlistsReducer'
 import setlistReducer from './setlistReducer'
+import spotifyReducer from './spotifyReducer'
+import playerReducer from './playerReducer'
 
 export default combineReducers({
   firebase: firebaseReducer,
   firestore: firestoreReducer,
   setlists: setlistsReducer,
-  setlist: setlistReducer
+  setlist: setlistReducer,
+  spotify: spotifyReducer,
+  player: playerReducer
 })

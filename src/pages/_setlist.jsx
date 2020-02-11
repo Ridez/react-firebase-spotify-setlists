@@ -5,6 +5,7 @@ import Sticky from 'react-sticky-el'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Spinner from 'react-bootstrap/Spinner'
+import SpotifyPlayer from '../components/SpotifyPlayer'
 import SingleSetlistList from '../components/SingleSetlistList'
 import { loadingSingle, fetchSetlist } from '../actions/setlist'
 
@@ -25,7 +26,7 @@ class Setlist extends React.Component {
   }
 
   render() {
-    const { setlist, isLoadingSingle } = this.props
+    const { setlist, isLoadingSingle, auth } = this.props
 
     if (!setlist.artist || !setlist.sets) {
       return null
@@ -65,7 +66,13 @@ class Setlist extends React.Component {
                 lg={{ span: 4, order: 2 }}
               >
                 <Sticky style={{ marginTop: '50px' }} topOffset={-50}>
-                  Spotify Player
+                  {auth.uid ? (
+                    <SpotifyPlayer />
+                  ) : (
+                    <p className="alert">
+                      Music Player is available only for Logged In Users!
+                    </p>
+                  )}
                 </Sticky>
               </Col>
             </Row>
@@ -83,10 +90,16 @@ class Setlist extends React.Component {
 }
 
 Setlist.defaultProps = {
-  setlist: {}
+  setlist: {},
+  auth: {
+    uid: ''
+  }
 }
 
 Setlist.propTypes = {
+  auth: PropTypes.shape({
+    uid: PropTypes.string
+  }),
   match: PropTypes.shape({
     params: PropTypes.shape({
       artist: PropTypes.string.isRequired,
@@ -122,6 +135,7 @@ Setlist.propTypes = {
 
 const mapStateToProps = state => {
   return {
+    auth: state.firebase.auth,
     setlist: state.setlist.item[0],
     isLoadingSingle: state.setlist.isLoadingSingle
   }
