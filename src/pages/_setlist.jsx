@@ -1,7 +1,135 @@
 import React from 'react'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import Sticky from 'react-sticky-el'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import Spinner from 'react-bootstrap/Spinner'
+import SingleSetlistList from '../components/SingleSetlistList'
+import { loadingSingle, fetchSetlist } from '../actions/setlist'
 
-const Setlist = () => {
-  return <div>Single setlist</div>
+import '../styles/setlist.scss'
+
+class Setlist extends React.Component {
+  componentDidMount() {
+    const {
+      match: {
+        params: { artist, venue, id }
+      }
+    } = this.props
+    const values = { artist, venue, id }
+    const { loadingSingleConnect, fetchSetlistConnect } = this.props
+
+    loadingSingleConnect(true)
+    fetchSetlistConnect(JSON.parse(JSON.stringify(values)))
+  }
+
+  render() {
+    const { setlist, isLoadingSingle } = this.props
+
+    if (!setlist.artist || !setlist.sets) {
+      return null
+    }
+
+    return (
+      <div className="single-setlist-page">
+        {!isLoadingSingle ? (
+          <div>
+            <div className="head">
+              <h1 className="head__title">
+                {setlist.artist.name}
+                <span> / </span>
+                {setlist.tour ? setlist.tour.name : ''}
+              </h1>
+              <hr />
+              <p className="head__caption">
+                {setlist.eventDate.replace(/-/g, '/')}
+                <br />
+                {setlist.venue.city.name}
+                <br />
+                {setlist.venue.city.country.name}
+              </p>
+            </div>
+            Add /remove
+            <Row>
+              <Col
+                xs={{ order: 2 }}
+                sm={{ span: 12, order: 2 }}
+                lg={{ span: 8, order: 1 }}
+              >
+                <SingleSetlistList />
+              </Col>
+              <Col
+                xs={{ order: 1 }}
+                sm={{ span: 12, order: 1 }}
+                lg={{ span: 4, order: 2 }}
+              >
+                <Sticky style={{ marginTop: '50px' }} topOffset={-50}>
+                  Spotify Player
+                </Sticky>
+              </Col>
+            </Row>
+          </div>
+        ) : (
+          <div className="text-center">
+            <Spinner animation="border" role="status">
+              <span className="sr-only">Loading...</span>
+            </Spinner>
+          </div>
+        )}
+      </div>
+    )
+  }
 }
 
-export default Setlist
+Setlist.defaultProps = {
+  setlist: {}
+}
+
+Setlist.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      artist: PropTypes.string.isRequired,
+      venue: PropTypes.string.isRequired,
+      id: PropTypes.string.isRequired
+    }).isRequired
+  }).isRequired,
+  setlist: PropTypes.shape({
+    tour: PropTypes.shape({
+      name: PropTypes.string
+    }),
+    artist: PropTypes.shape({
+      name: PropTypes.string
+    }),
+    eventDate: PropTypes.string,
+    venue: PropTypes.shape({
+      city: PropTypes.shape({
+        name: PropTypes.string,
+        country: PropTypes.shape({
+          name: PropTypes.string
+        })
+      })
+    }),
+    id: PropTypes.string,
+    sets: PropTypes.shape({
+      set: PropTypes.array
+    })
+  }),
+  isLoadingSingle: PropTypes.bool.isRequired,
+  loadingSingleConnect: PropTypes.func.isRequired,
+  fetchSetlistConnect: PropTypes.func.isRequired
+}
+
+const mapStateToProps = state => {
+  return {
+    setlist: state.setlist.item[0],
+    isLoadingSingle: state.setlist.isLoadingSingle
+  }
+}
+const mapDispatchToProps = dispatch => {
+  return {
+    loadingSingleConnect: val => dispatch(loadingSingle(val)),
+    fetchSetlistConnect: val => dispatch(fetchSetlist(val))
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Setlist)
