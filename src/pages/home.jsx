@@ -2,7 +2,9 @@ import React from 'react'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import PropTypes from 'prop-types'
+import Sticky from 'react-sticky-el'
 import SetlistList from '../components/SetlistList'
+import SearchForm from '../components/SearchForm'
 
 import '../styles/home.scss'
 
@@ -27,7 +29,13 @@ const Home = props => {
           lg={{ span: 4, order: 2 }}
           xl="3"
         >
-          Form
+          <Sticky
+            className="sticky-form"
+            style={{ marginTop: '50px' }}
+            topOffset={-50}
+          >
+            <SearchForm />
+          </Sticky>
         </Col>
       </Row>
     </div>
