@@ -2,10 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Table from 'react-bootstrap/Table'
-import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner'
-import { Link } from 'react-router-dom'
 import RemoveFromFavs from './buttons/RemoveFromFavs'
+import MoreLink from './buttons/MoreLink'
 import { fetchSetlistsBySetlistId, setFavsLength } from '../actions/favs'
 
 class FavsSetlistList extends React.Component {
@@ -34,10 +33,6 @@ class FavsSetlistList extends React.Component {
     }
   }
 
-  convertUrl(str) {
-    return str.replace(/\s+/g, '-').toLowerCase()
-  }
-
   renderFavs() {
     const { favsList } = this.props
 
@@ -53,21 +48,9 @@ class FavsSetlistList extends React.Component {
             {favsList[key].data.tour ? favsList[key].data.tour.name : ''}
           </td>
           <td className="align-middle">{favsList[key].data.venue.city.name}</td>
-          <td className="d-flex wrap-buttons">
+          <td className="align-middle wrap-buttons">
+            <MoreLink setlist={favsList[key].data} />
             <RemoveFromFavs removeId={favsList[key].data.id} />
-            <Link
-              to={`/setlist/${this.convertUrl(
-                favsList[key].data.artist.name
-              )}/${this.convertUrl(
-                favsList[key].data.venue.name
-              )}-${this.convertUrl(
-                favsList[key].data.venue.city.name
-              )}-${this.convertUrl(
-                favsList[key].data.venue.city.country.name
-              )}/${favsList[key].data.id}`}
-            >
-              <Button variant="primary">More</Button>
-            </Link>
           </td>
         </tr>
       )
