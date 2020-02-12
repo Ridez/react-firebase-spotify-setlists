@@ -7,6 +7,8 @@ import PropTypes from 'prop-types'
 import Spinner from 'react-bootstrap/Spinner'
 import SpotifyPlayer from '../components/SpotifyPlayer'
 import SingleSetlistList from '../components/SingleSetlistList'
+import AddToFavs from '../components/buttons/AddToFavs'
+import RemoveFromFavs from '../components/buttons/RemoveFromFavs'
 import { loadingSingle, fetchSetlist } from '../actions/setlist'
 
 import '../styles/setlist.scss'
@@ -23,6 +25,19 @@ class Setlist extends React.Component {
 
     loadingSingleConnect(true)
     fetchSetlistConnect(JSON.parse(JSON.stringify(values)))
+  }
+
+  checkFavs(id) {
+    const { favsIds } = this.props
+
+    if (favsIds) {
+      const hasId = favsIds.some(fav => {
+        return fav.setlistId === id
+      })
+
+      return hasId
+    }
+    return false
   }
 
   render() {
@@ -51,7 +66,11 @@ class Setlist extends React.Component {
                 {setlist.venue.city.country.name}
               </p>
             </div>
-            Add /remove
+            {!this.checkFavs(setlist.id) ? (
+              <AddToFavs setlistId={setlist.id} />
+            ) : (
+              <RemoveFromFavs removeId={setlist.id} />
+            )}
             <Row>
               <Col
                 xs={{ order: 2 }}
@@ -93,13 +112,20 @@ Setlist.defaultProps = {
   setlist: {},
   auth: {
     uid: ''
-  }
+  },
+  favsIds: []
 }
 
 Setlist.propTypes = {
   auth: PropTypes.shape({
     uid: PropTypes.string
   }),
+  favsIds: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      setlistId: PropTypes.string
+    })
+  ),
   match: PropTypes.shape({
     params: PropTypes.shape({
       artist: PropTypes.string.isRequired,
@@ -137,7 +163,8 @@ const mapStateToProps = state => {
   return {
     auth: state.firebase.auth,
     setlist: state.setlist.item[0],
-    isLoadingSingle: state.setlist.isLoadingSingle
+    isLoadingSingle: state.setlist.isLoadingSingle,
+    favsIds: state.firestore.ordered.favs
   }
 }
 const mapDispatchToProps = dispatch => {
