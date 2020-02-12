@@ -6,6 +6,76 @@
   min-height: 100vh;
 }
 
-div {
+a {
   color: $white;
+  &:hover {
+    color: $white;
+  }
+}
+.btn-primary:not(:disabled):not(.disabled):active {
+  background-color: transparent;
+  border-color: $gray;
+}
+
+.btn-primary {
+  background-color: $white;
+  border-color: $white;
+  color: $black;
+  transition: all ease-in-out 0.3s;
+
+  &:focus {
+    background-color: transparent;
+  }
+  &:hover {
+    background-color: transparent;
+    border-color: $white;
+    color: $white;
+    opacity: 0.9;
+  }
+}
+
+.btn-secondary.disabled,
+.btn-secondary:disabled {
+  cursor: not-allowed;
+}
+
+.container {
+  padding-bottom: 5rem;
+}
+
+.table-dark {
+  background-color: $black;
+  text-align: center;
+  tr {
+    &:last-child {
+      border-bottom: 1px solid $gray;
+    }
+  }
+  td {
+    border-color: $gray;
+  }
+}
+
+.spinner-border {
+  margin-top: 30px;
+  color: $white;
+}
+
+.remove-btn {
+  background-color: transparent;
+  color: $white;
+}
+
+@include breakpoint-min($lg) {
+  .container {
+    padding-top: 5rem;
+  }
+}
+
+@include breakpoint-min($xl) {
+  .container {
+    max-width: 1440px;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
 }
