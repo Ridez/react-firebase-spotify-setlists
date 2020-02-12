@@ -86,7 +86,8 @@ class SetlistList extends React.Component {
             {setlist.venue.city.country.name}
           </td>
 
-          <td className="d-flex wrap-btns">
+          <td className="align-middle wrap-btns">
+            <MoreLink className setlist={setlist} />
             {!this.checkFavs(setlist.id) ? (
               <div className="add-favs-btn">
                 <AddToFavs setlistId={setlist.id} />
@@ -102,7 +103,6 @@ class SetlistList extends React.Component {
                 <RemoveFromFavs removeId={setlist.id} />
               </div>
             )}
-            <MoreLink setlist={setlist} />
           </td>
         </tr>
       )
