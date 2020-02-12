@@ -5,7 +5,7 @@ import '../styles/favs.scss'
 
 const Favs = () => {
   return (
-    <div>
+    <div className="favs-page">
       <FavsSetlistList />
     </div>
   )
