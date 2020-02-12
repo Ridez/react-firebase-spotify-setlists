@@ -1,0 +1,14 @@
+.favs-page {
+  padding-top: 4rem;
+}
+.wrap-buttons {
+  min-width: 245px;
+  .remove-btn,
+  .more-btn {
+    float: right;
+  }
+  button {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+}
