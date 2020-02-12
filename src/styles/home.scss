@@ -1,0 +1,58 @@
+@import './variables.scss';
+@import './mixins.scss';
+
+.home-setlist {
+  margin-top: 50px;
+
+  .wrap-btns {
+    min-width: 245px;
+  }
+
+  .add-favs-btn,
+  .remove-favs-btn,
+  .more-btn {
+    margin-left: 10px;
+    margin-right: 10px;
+    float: right;
+  }
+}
+
+.load-more-btn {
+  margin-top: 20px;
+  &.btn-primary {
+    &:active,
+    &:focus {
+      background-color: $white;
+      color: $black;
+    }
+  }
+}
+
+.no-more {
+  margin-top: 30px;
+  color: $white;
+  text-align: center;
+}
+
+form {
+  text-align: center;
+  .form-control {
+    margin-bottom: 1rem;
+    border-radius: 0;
+    border: none;
+  }
+  .btn {
+    margin-top: 15px;
+  }
+}
+
+@include breakpoint-max($lg) {
+  .setlist-col,
+  .form-col {
+    flex-basis: auto;
+  }
+  .sticky {
+    width: 100% !important;
+    position: initial !important;
+  }
+}
