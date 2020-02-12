@@ -1,0 +1,114 @@
+@import './variables.scss';
+@import './mixins.scss';
+
+.single-setlist-page {
+  padding-top: 4rem;
+  table {
+    margin-top: 50px;
+  }
+
+  .alert {
+    color: $white;
+  }
+
+  .head {
+    text-align: left;
+    color: $white;
+    &__title {
+      font-size: $title;
+      text-transform: uppercase;
+    }
+    &__caption {
+      text-transform: uppercase;
+    }
+    hr {
+      margin-left: 0px;
+      height: 2px;
+      background-color: $gray;
+      width: 60px;
+    }
+  }
+  .wrap-btns {
+    justify-content: flex-end;
+    min-width: 245px;
+    button {
+      margin-left: 10px;
+      margin-right: 10px;
+      a {
+        color: $black;
+        text-decoration: none;
+        &:hover {
+          color: $white;
+        }
+      }
+      &:focus {
+        a {
+          color: $white;
+        }
+      }
+      .fa-spotify {
+        margin-right: 4px;
+      }
+    }
+  }
+  .fa-play-circle,
+  .fa-pause-circle {
+    color: $white;
+    font-size: 32px;
+    cursor: pointer;
+  }
+
+  .wrap-ui {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 15px;
+    .curr-time {
+      color: $white;
+    }
+    .wrap-volume {
+      width: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .rc-slider {
+        width: 57px;
+        .rc-slider-rail {
+          background-color: $gray;
+        }
+        .rc-slider-track {
+          background-color: $white;
+        }
+        .rc-slider-handle {
+          border: none;
+          cursor: initial;
+          &:active {
+            box-shadow: none;
+            cursor: initial;
+            background-color: $gray;
+            border: 4px solid $white;
+          }
+          &:focus {
+            box-shadow: none;
+          }
+        }
+      }
+      .svg-inline--fa {
+        margin-right: 15px;
+      }
+      .fa-volume-down,
+      .fa-volume-up,
+      .fa-volume-mute {
+        color: $white;
+        font-size: 16px;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+@include breakpoint-max($sm) {
+  .col {
+    flex-basis: auto;
+  }
+}
