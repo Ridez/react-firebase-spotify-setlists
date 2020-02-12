@@ -61,10 +61,10 @@ class SingleSetlistList extends React.Component {
 
     return set[0].song.map((song, index) => {
       return (
-        <tr className="d-flex" key={song.name}>
-          <td className="d-flex align-middle col-sm-1">{index + 1}</td>
-          <td className="d-flex col-sm-6">{song.name}</td>
-          <td className="d-flex align-middle col-sm-5 wrap-btns">
+        <tr key={song.name}>
+          <td>{index + 1}</td>
+          <td>{song.name}</td>
+          <td className="d-flex wrap-btns">
             {this.checkSongPlayAvailability(index).play ? (
               <Button
                 onClick={() => this.setCurrentSong(index)}
