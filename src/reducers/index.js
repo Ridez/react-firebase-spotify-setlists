@@ -5,6 +5,7 @@ import setlistsReducer from './setlistsReducer'
 import setlistReducer from './setlistReducer'
 import spotifyReducer from './spotifyReducer'
 import playerReducer from './playerReducer'
+import favsReducer from './favsReducer'
 
 export default combineReducers({
   firebase: firebaseReducer,
@@ -12,5 +13,6 @@ export default combineReducers({
   setlists: setlistsReducer,
   setlist: setlistReducer,
   spotify: spotifyReducer,
-  player: playerReducer
+  player: playerReducer,
+  favs: favsReducer
 })
