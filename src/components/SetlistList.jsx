@@ -6,6 +6,8 @@ import Spinner from 'react-bootstrap/Spinner'
 import Table from 'react-bootstrap/Table'
 import Button from 'react-bootstrap/Button'
 import MoreLink from './buttons/MoreLink'
+import AddToFavs from './buttons/AddToFavs'
+import RemoveFromFavs from './buttons/RemoveFromFavs'
 
 import {
   fetchSetlistsByCity,
@@ -13,6 +15,8 @@ import {
   isLoadingMore,
   clearSetlists
 } from '../actions/setlists'
+
+import { isLoadingFavs } from '../actions/favs'
 
 class SetlistList extends React.Component {
   componentDidMount() {
@@ -52,8 +56,21 @@ class SetlistList extends React.Component {
     fetchSetlistsConnect(parsed, currPage + 1)
   }
 
+  checkFavs(id) {
+    const { favsIds } = this.props
+
+    if (favsIds) {
+      const hasId = favsIds.some(fav => {
+        return fav.setlistId === id
+      })
+
+      return hasId
+    }
+    return false
+  }
+
   renderList() {
-    const { setlists } = this.props
+    const { setlists, isLoadingFavsConnect } = this.props
 
     return setlists.map((setlist, index) => {
       return (
@@ -70,7 +87,22 @@ class SetlistList extends React.Component {
           </td>
 
           <td className="d-flex wrap-btns">
-            Add/Remove <MoreLink setlist={setlist} />
+            {!this.checkFavs(setlist.id) ? (
+              <div className="add-favs-btn">
+                <AddToFavs setlistId={setlist.id} />
+              </div>
+            ) : (
+              <div
+                role="button"
+                tabIndex="0"
+                onClick={() => isLoadingFavsConnect(true)}
+                onKeyDown={() => isLoadingFavsConnect(true)}
+                className="remove-favs-btn"
+              >
+                <RemoveFromFavs removeId={setlist.id} />
+              </div>
+            )}
+            <MoreLink setlist={setlist} />
           </td>
         </tr>
       )
@@ -120,6 +152,7 @@ class SetlistList extends React.Component {
 
 SetlistList.defaultProps = {
   setlists: [] || {},
+  favsIds: [],
   loadingMore: false,
   hasMore: true
 }
@@ -129,6 +162,12 @@ SetlistList.propTypes = {
     PropTypes.objectOf(PropTypes.any),
     PropTypes.array
   ]),
+  favsIds: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      setlistId: PropTypes.string
+    })
+  ),
   isLoadingSetlist: PropTypes.bool.isRequired,
   loadingMore: PropTypes.bool,
   location: PropTypes.shape({
@@ -139,6 +178,7 @@ SetlistList.propTypes = {
   fetchSetlistsConnect: PropTypes.func.isRequired,
   fetchSetlistsByCityConnect: PropTypes.func.isRequired,
   isLoadingMoreConnect: PropTypes.func.isRequired,
+  isLoadingFavsConnect: PropTypes.func.isRequired,
   clearSetlistsConnect: PropTypes.func.isRequired
 }
 
@@ -146,6 +186,7 @@ const mapStateToProps = state => {
   return {
     setlists: state.setlists.items,
     currPage: state.setlists.currPage,
+    favsIds: state.firestore.ordered.favs,
     isLoadingSetlist: state.setlists.isLoading,
     loadingMore: state.setlists.isLoadingMore,
     hasMore: state.setlists.hasMore
@@ -156,6 +197,7 @@ const mapDispatchToProps = dispatch => {
   return {
     fetchSetlistsByCityConnect: city => dispatch(fetchSetlistsByCity(city)),
     isLoadingMoreConnect: val => dispatch(isLoadingMore(val)),
+    isLoadingFavsConnect: val => dispatch(isLoadingFavs(val)),
     fetchSetlistsConnect: (formValues, currPage) =>
       dispatch(fetchSetlists(formValues, currPage)),
     clearSetlistsConnect: () => dispatch(clearSetlists())
