@@ -61,8 +61,7 @@ const App = () => {
 
 export default compose(
   connect(state => ({
-    auth: state.firebase.auth,
-    favsIds: state.firestore.data.favs
+    auth: state.firebase.auth
   })),
   firestoreConnect(({ auth }) => {
     const queries = []
@@ -71,7 +70,9 @@ export default compose(
       queries.push({
         collection: 'users',
         doc: auth.uid,
-        subcollections: [{ collection: 'setlists' }],
+        subcollections: [
+          { collection: 'setlists', orderBy: 'setlistId.lastUpdated' }
+        ],
         storeAs: 'favs'
       })
     }
