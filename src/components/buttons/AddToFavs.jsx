@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Button from 'react-bootstrap/Button'
 import { connect } from 'react-redux'
-import { addToFavs, isLoadingFavs } from '../../actions/favs'
+import { addToFavs } from '../../actions/favs'
 
 class AddToFavs extends React.Component {
   addToFavs(setlistId) {
@@ -35,7 +35,7 @@ AddToFavs.defaultProps = {
 }
 
 AddToFavs.propTypes = {
-  setlistId: PropTypes.string.isRequired,
+  setlistId: PropTypes.shape({}).isRequired,
   auth: PropTypes.shape({
     uid: PropTypes.string
   }),
@@ -49,8 +49,7 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => {
   return {
-    addToFavsConnect: (setlist, uid) => dispatch(addToFavs(setlist, uid)),
-    isLoadingFavsConnect: val => dispatch(isLoadingFavs(val))
+    addToFavsConnect: (setlist, uid) => dispatch(addToFavs(setlist, uid))
   }
 }
 
