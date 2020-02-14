@@ -16,8 +16,6 @@ import {
   clearSetlists
 } from '../actions/setlists'
 
-import { isLoadingFavs } from '../actions/favs'
-
 class SetlistList extends React.Component {
   componentDidMount() {
     this.getInitialSetlists()
@@ -61,7 +59,7 @@ class SetlistList extends React.Component {
 
     if (favsIds) {
       const hasId = favsIds.some(fav => {
-        return fav.setlistId === id
+        return fav.id === id
       })
 
       return hasId
@@ -70,7 +68,7 @@ class SetlistList extends React.Component {
   }
 
   renderList() {
-    const { setlists, isLoadingFavsConnect } = this.props
+    const { setlists } = this.props
 
     return setlists.map((setlist, index) => {
       return (
@@ -90,16 +88,10 @@ class SetlistList extends React.Component {
             <MoreLink className setlist={setlist} />
             {!this.checkFavs(setlist.id) ? (
               <div className="add-favs-btn">
-                <AddToFavs setlistId={setlist.id} />
+                <AddToFavs setlistId={setlist} />
               </div>
             ) : (
-              <div
-                role="button"
-                tabIndex="0"
-                onClick={() => isLoadingFavsConnect(true)}
-                onKeyDown={() => isLoadingFavsConnect(true)}
-                className="remove-favs-btn"
-              >
+              <div role="button" tabIndex="0" className="remove-favs-btn">
                 <RemoveFromFavs removeId={setlist.id} />
               </div>
             )}
@@ -165,7 +157,7 @@ SetlistList.propTypes = {
   favsIds: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,
-      setlistId: PropTypes.string
+      setlistId: PropTypes.shape({})
     })
   ),
   isLoadingSetlist: PropTypes.bool.isRequired,
@@ -178,7 +170,6 @@ SetlistList.propTypes = {
   fetchSetlistsConnect: PropTypes.func.isRequired,
   fetchSetlistsByCityConnect: PropTypes.func.isRequired,
   isLoadingMoreConnect: PropTypes.func.isRequired,
-  isLoadingFavsConnect: PropTypes.func.isRequired,
   clearSetlistsConnect: PropTypes.func.isRequired
 }
 
@@ -197,7 +188,6 @@ const mapDispatchToProps = dispatch => {
   return {
     fetchSetlistsByCityConnect: city => dispatch(fetchSetlistsByCity(city)),
     isLoadingMoreConnect: val => dispatch(isLoadingMore(val)),
-    isLoadingFavsConnect: val => dispatch(isLoadingFavs(val)),
     fetchSetlistsConnect: (formValues, currPage) =>
       dispatch(fetchSetlists(formValues, currPage)),
     clearSetlistsConnect: () => dispatch(clearSetlists())
