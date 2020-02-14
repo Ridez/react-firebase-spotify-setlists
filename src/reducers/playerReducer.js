@@ -3,7 +3,7 @@ export default (
     range: 0.05,
     isPlaying: false,
     isMuted: false,
-    currTime: 0
+    currTime: '0'
   },
   action
 ) => {

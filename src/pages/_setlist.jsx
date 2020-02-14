@@ -28,10 +28,10 @@ class Setlist extends React.Component {
   }
 
   checkFavs(id) {
-    const { favsIds } = this.props
+    const { favsList } = this.props
 
-    if (favsIds) {
-      const hasId = favsIds.some(fav => {
+    if (favsList) {
+      const hasId = favsList.some(fav => {
         return fav.setlistId === id
       })
 
@@ -67,7 +67,7 @@ class Setlist extends React.Component {
               </p>
             </div>
             {!this.checkFavs(setlist.id) ? (
-              <AddToFavs setlistId={setlist.id} />
+              <AddToFavs setlistId={setlist} />
             ) : (
               <RemoveFromFavs removeId={setlist.id} />
             )}
@@ -113,14 +113,14 @@ Setlist.defaultProps = {
   auth: {
     uid: ''
   },
-  favsIds: []
+  favsList: []
 }
 
 Setlist.propTypes = {
   auth: PropTypes.shape({
     uid: PropTypes.string
   }),
-  favsIds: PropTypes.arrayOf(
+  favsList: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,
       setlistId: PropTypes.string
@@ -164,7 +164,7 @@ const mapStateToProps = state => {
     auth: state.firebase.auth,
     setlist: state.setlist.item[0],
     isLoadingSingle: state.setlist.isLoadingSingle,
-    favsIds: state.firestore.ordered.favs
+    favsLidy: state.firestore.ordered.favs
   }
 }
 const mapDispatchToProps = dispatch => {
