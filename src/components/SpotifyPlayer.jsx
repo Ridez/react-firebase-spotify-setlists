@@ -180,6 +180,7 @@ class SpotifyPlaylist extends React.Component {
 
   render() {
     const { spotify, player } = this.props
+
     return (
       <div>
         <div style={{ height: 80, width: '100%' }} id="waveform" />
@@ -250,7 +251,7 @@ SpotifyPlaylist.propTypes = {
     range: PropTypes.number.isRequired,
     isPlaying: PropTypes.bool.isRequired,
     isMuted: PropTypes.bool.isRequired,
-    currTime: PropTypes.number.isRequired
+    currTime: PropTypes.string.isRequired
   }).isRequired,
   clearPlayls: PropTypes.func.isRequired,
   getSongConnect: PropTypes.func.isRequired,
