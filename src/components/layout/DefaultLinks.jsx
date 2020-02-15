@@ -13,7 +13,7 @@ const DefaultLinks = () => {
       </Nav.Item>
       <Nav.Item>
         <Nav.Link
-          href="http://localhost:5000/spotify-setlists-8832b/us-central1/api/login"
+          href={`${process.env.REACT_APP_API_ENDPOINT}/login`}
           eventKey="Login"
         >
           <Button variant="primary">Login</Button>
