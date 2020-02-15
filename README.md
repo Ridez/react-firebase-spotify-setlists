@@ -18,7 +18,7 @@ Server code for this App available at: <a target="_blank" href="https://github.c
 
 <ul>
   <li>Add .env file with firebase credentials</li>
-  <li>Change server base url in `src/apis/setlist.js`</li>
+  <li>Change server base url in `src/apis/setlists.js`</li>
   <li>Create and setup app at <a target="_blank" href="https://developer.spotify.com/">Spotify for Developers</a></li>
 </ul>
 
