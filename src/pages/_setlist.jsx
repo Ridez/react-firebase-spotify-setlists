@@ -164,7 +164,7 @@ const mapStateToProps = state => {
     auth: state.firebase.auth,
     setlist: state.setlist.item[0],
     isLoadingSingle: state.setlist.isLoadingSingle,
-    favsLidy: state.firestore.ordered.favs
+    favsList: state.firestore.ordered.favs
   }
 }
 const mapDispatchToProps = dispatch => {
