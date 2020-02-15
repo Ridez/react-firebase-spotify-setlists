@@ -32,7 +32,7 @@ class Setlist extends React.Component {
 
     if (favsList) {
       const hasId = favsList.some(fav => {
-        return fav.setlistId === id
+        return fav.id === id
       })
 
       return hasId
